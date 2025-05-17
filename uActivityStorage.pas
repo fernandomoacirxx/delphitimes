@@ -12,6 +12,11 @@ type
     IsActive: Boolean;
   end;
 
+const
+  LOG_FILE_PREFIX = 'ActivityLog_';
+  DATE_FORMAT = 'yyyy-mm-dd';
+
+type
   TActivityStorage = class
   private
     FFilePath: string;
@@ -22,6 +27,7 @@ type
     FTotalInactiveTime: TDateTime;
     FTimerCaption: string;
     FStarted: Boolean;
+    function GetLogFilePath: string;
     procedure LoadFromFile;
     procedure SaveToFile;
   public
@@ -40,7 +46,7 @@ implementation
 constructor TActivityStorage.Create;
 begin
   FActivityPeriods := TList<TActivityPeriod>.Create;
-  FFilePath := ExtractFilePath(ParamStr(0)) + 'ActivityLog_' + FormatDateTime('yyyy-mm-dd', Date) + '.log';
+  FFilePath := GetLogFilePath;
   LoadFromFile;
 end;
 
@@ -116,6 +122,12 @@ begin
   end;
 end;
 
+function TActivityStorage.GetLogFilePath: string;
+begin
+  Result := ExtractFilePath(ParamStr(0)) + LOG_FILE_PREFIX +
+            FormatDateTime(DATE_FORMAT, Date) + '.log';
+end;
+
 function TActivityStorage.GetActivityPeriods: TList<TActivityPeriod>;
 begin
   Result := FActivityPeriods;
@@ -125,7 +137,7 @@ procedure TActivityStorage.NewDayCheck;
 var
   NewFilePath: string;
 begin
-  NewFilePath := ExtractFilePath(ParamStr(0)) + 'ActivityLog_' + FormatDateTime('yyyy-mm-dd', Date) + '.log';
+  NewFilePath := GetLogFilePath;
   if FFilePath <> NewFilePath then
   begin
     SaveToFile;
