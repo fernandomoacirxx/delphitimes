@@ -190,7 +190,7 @@ begin
 
   LFrameItem.pnlDataDia.Caption:= 'TOTAL';
   LFrameItem.lblSemana.Caption:= 'SEMANA';
-  LFrameItem.lblIniciouDias.Caption:= 'Média Inicio: ' + funHorarioMedioInicio;
+  LFrameItem.lblIniciouDias.Caption:= 'MÃ©dia Inicio: ' + funHorarioMedioInicio;
   LPanelItem.Align:= alClient;
 
   proResteDatesTimes;
@@ -407,8 +407,8 @@ end;
 
 procedure TFrmCalendar.FormShow(Sender: TObject);
 begin
-  if not aaAbriuCalendarioCalendar then
-      Calendario;
+  
+  Calendario;
 end;
 
 procedure TFrmCalendar.procClickPanelData(Sender: TObject);
